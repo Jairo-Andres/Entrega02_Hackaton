@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TuristicApp</string>
+    <string name="log_in">Iniciar sesion</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="password">Contraseña</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="crear_cuenta">crear cuenta</string>
+    <string name="confirma_tu_contrase_a">confirma tu contraseña</string>
+    <string name="propietary">Propietario?</string>
+    <string name="more_info">more info</string>
+    <string name="edit_touristic_place">edit touristic place</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_map">Map</string>
+    <string name="title_profile">Profile</string>
+    <string name="go_back">Go Back</string>
+    <string name="rellenoDescripcion">relleno para la descripción, luego ponemos la descripción real completa :)</string>
+    <string name="view_reviews">ver reseñas</string>
+    <string name="review_filler">reseña de relleno :P</string>
+</resources>

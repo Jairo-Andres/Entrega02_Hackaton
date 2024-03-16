@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp">
+
+
+    <!-- Rectángulo blanco para el inicio de pantalla -->
+    <View
+        android:id="@+id/start_rect"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorSecundary"
+        android:layout_alignParentTop="true"/>
+
+
+    <!-- Imagen del logo arriba -->
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="308dp"
+        android:layout_height="240dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo" />
+
+    <!-- EditText para el nombre de usuario -->
+    <EditText
+        android:id="@+id/SignUpUsername"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/imageLogo"
+        android:layout_marginTop="30dp"
+        android:hint="@string/username"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textEmailAddress"
+        android:padding="10dp" />
+
+    <!-- EditText para la contraseña -->
+    <EditText
+        android:id="@+id/SignUpPassword"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/SignUpUsername"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginTop="30dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="10dp" />
+
+    <!-- EditText para confirmar contraseña -->
+    <EditText
+        android:id="@+id/checkPasswordText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/SignUpPassword"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginTop="30dp"
+        android:hint="@string/confirma_tu_contrase_a"
+        android:inputType="textPassword"
+        android:padding="10dp" />
+
+    <!-- CheckBox -->
+    <CheckBox
+        android:id="@+id/propietaryCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkPasswordText"
+        android:layout_marginTop="30dp"
+        android:textColor="#FFFFFF"
+        android:text="@string/propietary" />
+
+    <!-- Botón de registro -->
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/propietaryCheckbox"
+        android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/custom_button"
+        android:padding="12dp"
+        android:text="@string/crear_cuenta" />
+
+    <!-- Texto bonito "Sign Up" al final de la pantalla -->
+    <TextView
+        android:id="@+id/textViewSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:id="@+id/end_rect"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorSecundary"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

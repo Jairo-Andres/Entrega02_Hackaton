@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/colorPrimary">
+
+    <!-- Rectángulo blanco para el inicio de pantalla -->
+    <View
+        android:id="@+id/start_rect"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorSecundary"
+        android:layout_alignParentTop="true"/>
+
+    <!-- Imagen del logo arriba -->
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="308dp"
+        android:layout_height="240dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="41dp"
+        android:src="@drawable/logo" />
+
+
+    <TextView
+        android:id="@+id/textViewWelcomeBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Que bueno que volviste!"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/imageLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <!-- EditText para el nombre de usuario -->
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/textViewWelcomeBack"
+        android:layout_marginTop="20dp"
+        android:hint="@string/username"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edit_text_background"
+        android:padding="10dp" />
+
+    <!-- EditText para la contraseña -->
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editTextUsername"
+        android:layout_marginTop="10dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_background"
+        android:padding="10dp" />
+
+    <!-- Link de "¿Olvidaste tu contraseña?" -->
+    <TextView
+        android:id="@+id/textViewForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Olvidaste tu contraseña?"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Botón de iniciar sesión -->
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewForgotPassword"
+        android:layout_marginTop="20dp"
+        android:text="@string/log_in"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/custom_button"
+        android:padding="12dp"/>
+
+    <!-- Texto bonito "Sign Up" al final de la pantalla -->
+    <TextView
+        android:id="@+id/textViewSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:id="@+id/end_rect"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorSecundary"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

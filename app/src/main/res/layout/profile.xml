@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Rectángulo blanco para el inicio de pantalla -->
+    <View
+        android:id="@+id/start_rect"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorSecundary"
+        android:layout_alignParentTop="true"/>
+
+    <!-- User Profile Picture -->
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/default_profile_pic"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- User Name TextView -->
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Your Profile"
+        android:layout_below="@id/profilePicture"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Button to go back -->
+    <Button
+        android:id="@+id/goBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_back"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/custom_button"
+        android:layout_below="@id/usernameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <!-- User Information Section -->
+    <LinearLayout
+        android:id="@+id/userInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/goBackButton"
+        android:layout_marginTop="24dp">
+
+        <!-- User Location -->
+        <TextView
+            android:id="@+id/locationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Location: Paris, France"
+            android:layout_marginStart="16dp"/>
+
+        <!-- User Age -->
+        <TextView
+            android:id="@+id/ageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Age: 30"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- User Interests -->
+        <TextView
+            android:id="@+id/interestsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Interests: Travel, Photography, Food"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- User Bio -->
+        <TextView
+            android:id="@+id/bioTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Bio: A passionate traveler exploring the world!"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/end_rect"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorSecundary"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
