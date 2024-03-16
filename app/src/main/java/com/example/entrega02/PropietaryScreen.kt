@@ -55,7 +55,7 @@ class PropietaryScreen :  AppCompatActivity() {
         }
     }
     fun readTouristicPlacesFromTxtFile(context: Context): ArrayList<TouristicPlace> {
-        val TouristicPlaceList = ArrayList<TouristicPlace>()
+        val touristicPlaceList = ArrayList<TouristicPlace>()
 
         try {
             // Open the file from the assets folder
@@ -68,21 +68,24 @@ class PropietaryScreen :  AppCompatActivity() {
             while (reader.readLine().also { line = it } != null) {
                 val parts = line?.split(";")
 
-                if (parts?.size == 3) {
+                if (parts?.size == 4) {
                     val name = parts[0]
                     val picture = parts[1]
                     val scoresString = parts[2].split(" ") // Splitting scores separated by space
-
+                    val coordinates = parts[3].split(" ")
                     val scores = ArrayList<Float>()
+                    val coordinateArray = ArrayList<String>()
                     // Convert each score to float and add to scores list
                     for (scoreString in scoresString) {
                         val score = scoreString.toFloatOrNull() ?: continue
                         scores.add(score)
                     }
-
+                    for (coord in coordinates) {
+                        coordinateArray.add(coord)
+                    }
                     // Create an TouristicPlace object and add it to the list
-                    val TouristicPlace = TouristicPlace(name, picture, scores)
-                    TouristicPlaceList.add(TouristicPlace)
+                    val TouristicPlace = TouristicPlace(name, picture, scores, coordinateArray)
+                    touristicPlaceList.add(TouristicPlace)
                 }
             }
 
@@ -93,6 +96,6 @@ class PropietaryScreen :  AppCompatActivity() {
             e.printStackTrace()
         }
 
-        return TouristicPlaceList
+        return touristicPlaceList
     }
 }

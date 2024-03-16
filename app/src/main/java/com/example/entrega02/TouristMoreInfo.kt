@@ -1,10 +1,12 @@
 package com.example.entrega02
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 
@@ -19,6 +21,7 @@ class TouristMoreInfo: AppCompatActivity() {
         val myTextView = findViewById<TextView>(R.id.InfoPlaceName)
         val myImageView = findViewById<ImageView>(R.id.InfoPlaceImage)
         val viewReviews = findViewById<FloatingActionButton>(R.id.viewReviews)
+        val navigateButton = findViewById<FloatingActionButton>(R.id.navigate)
         // Set the text for the TextView
         myTextView.text = derivedObject.name
 
@@ -29,5 +32,20 @@ class TouristMoreInfo: AppCompatActivity() {
             intent.putExtra("object", derivedObject)
             startActivity(intent)
         }
+        navigateButton.setOnClickListener {
+            val latitude = derivedObject.coordinates[0]
+            val longitude = derivedObject.coordinates[1]
+
+            // Construct the URI for Google Maps navigation
+            val uri = "http://maps.google.com/maps?saddr=Current+Location&daddr=$latitude,$longitude"
+
+            // Create an Intent with ACTION_VIEW and the URI
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+
+            // Set the package to Google Maps
+            intent.setPackage("com.google.android.apps.maps")
+            startActivity(intent)
+        }
+
     }
 }
