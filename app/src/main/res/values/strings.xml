@@ -18,4 +18,6 @@
     <string name="rellenoDescripcion">relleno para la descripción, luego ponemos la descripción real completa :)</string>
     <string name="view_reviews">ver reseñas</string>
     <string name="review_filler">reseña de relleno :P</string>
+    <string name="credencialesInvalidas">Error, credenciales no válidas, intente de nuevo</string>
+    <string name="noCamposBlanco">Error, no puedes dejar campos en blanco</string>
 </resources>

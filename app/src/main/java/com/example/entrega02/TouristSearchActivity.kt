@@ -1,10 +1,15 @@
 package com.example.entrega02
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,7 +24,7 @@ class TouristSearchActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var adapter: TouristScreenTouristicPlaceAdapter
-
+    private val PERM_LOCATION_CODE = 103
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.search_view)
@@ -63,13 +68,21 @@ class TouristSearchActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_search -> {
-                    // Handle the search icon click
                     finish()
                     startActivity(Intent(this, TouristSearchActivity::class.java))
                     true
                 }
                 R.id.navigation_profile -> {
+                    finish()
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.navigation_map -> {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        startMapActivity()
+                    } else {
+                        requestLocationPermission()
+                    }
                     true
                 }
                 else -> false
@@ -120,5 +133,15 @@ class TouristSearchActivity : AppCompatActivity() {
         }
 
         return touristicPlaceList
+    }
+    private fun requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            Toast.makeText(this, "Location permission is required to access this functionality 😭", Toast.LENGTH_LONG).show()
+        }
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERM_LOCATION_CODE)
+    }
+    private fun startMapActivity() {
+        startActivity(Intent(this, MapActivity::class.java))
     }
 }

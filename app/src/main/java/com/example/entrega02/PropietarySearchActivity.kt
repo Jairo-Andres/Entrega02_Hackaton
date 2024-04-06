@@ -22,11 +22,11 @@ class PropietarySearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.search_view)
+        setContentView(R.layout.prop_search_view)
 
         // Initialize views
-        recyclerView = findViewById(R.id.recyclerView)
-        searchView = findViewById(R.id.searchView)
+        recyclerView = findViewById(R.id.prop_recyclerView)
+        searchView = findViewById(R.id.prop_searchView)
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -52,7 +52,7 @@ class PropietarySearchActivity : AppCompatActivity() {
                 return false
             }
         })
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.prop_bottom_navigation)
 
         // Set listener for BottomNavigationView items
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->

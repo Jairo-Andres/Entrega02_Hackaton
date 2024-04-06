@@ -1,9 +1,13 @@
 package com.example.entrega02
-
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.Manifest
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,7 +15,10 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+
 private const val FILE_NAME = "touristicPlaces.txt"
+private const val PERM_LOCATION_CODE = 103
+
 class TouristScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,19 +28,19 @@ class TouristScreen : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val cardList = mutableListOf<TouristicPlace>(
-        )
+        val cardList = mutableListOf<TouristicPlace>()
+
+
         val places : ArrayList<TouristicPlace> = readTouristicPlacesFromTxtFile(this)
-        for(place in places)
-        {
+        for(place in places) {
             cardList.add(place)
         }
+
         val adapter = TouristScreenTouristicPlaceAdapter(cardList)
         recyclerView.adapter = adapter
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        // Set listener for BottomNavigationView items
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
@@ -47,24 +54,46 @@ class TouristScreen : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_profile -> {
+                    finish()
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.navigation_map -> {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        startMapActivity()
+                    } else {
+                        requestLocationPermission()
+                    }
                     true
                 }
                 else -> false
             }
         }
     }
+
+
+    private fun requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            Toast.makeText(this, "Location permission is required to access this functionality 😭", Toast.LENGTH_LONG).show()
+        }
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERM_LOCATION_CODE)
+    }
+    private fun startMapActivity() {
+        startActivity(Intent(this, MapActivity::class.java))
+    }
+
     fun readTouristicPlacesFromTxtFile(context: Context): ArrayList<TouristicPlace> {
         val touristicPlaceList = ArrayList<TouristicPlace>()
 
         try {
-            // Open the file from the assets folder
+
             val inputStream: InputStream = context.assets.open(FILE_NAME)
             val reader = BufferedReader(InputStreamReader(inputStream))
 
             var line: String?
 
-            // Read each line from the file
+
             while (reader.readLine().also { line = it } != null) {
                 val parts = line?.split(";")
 
@@ -89,7 +118,7 @@ class TouristScreen : AppCompatActivity() {
                 }
             }
 
-            // Close the InputStream when done
+
             inputStream.close()
 
         } catch (e: IOException) {
@@ -97,5 +126,18 @@ class TouristScreen : AppCompatActivity() {
         }
 
         return touristicPlaceList
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERM_LOCATION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                startMapActivity()
+            } else {
+
+                Toast.makeText(this, "Location permission denied 😔", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

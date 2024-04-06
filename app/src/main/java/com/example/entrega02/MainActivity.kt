@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import android.widget.Button
 import com.example.entrega02.databinding.LoginOrRegisterBinding
 import android.content.Intent
-import android.widget.Toast
 
 
 class MainActivity : ComponentActivity() {

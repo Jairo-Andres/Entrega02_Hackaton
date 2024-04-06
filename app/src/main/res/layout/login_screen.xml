@@ -37,7 +37,7 @@
 
     <!-- EditText para el nombre de usuario -->
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/textViewWelcomeBack"
@@ -52,7 +52,7 @@
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@id/editTextUsername"
+        android:layout_below="@id/editTextEmail"
         android:layout_marginTop="10dp"
         android:hint="@string/password"
         android:inputType="textPassword"

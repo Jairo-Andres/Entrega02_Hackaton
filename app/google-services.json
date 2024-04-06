@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "647496168366",
+    "project_id": "proyecto-compu-movil-ccf41",
+    "storage_bucket": "proyecto-compu-movil-ccf41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647496168366:android:2af475399c35a0e22b0e3f",
+        "android_client_info": {
+          "package_name": "com.example.entrega02"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArkgZSfZ2yobBKy-lwJqiat1TQ5MfyB0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

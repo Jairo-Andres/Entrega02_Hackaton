@@ -1,6 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- TextView para el nombre de la aplicación en la parte superior
+    <TextView
+        android:id="@+id/appNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSecundary"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:text="TuristicApp"
+        android:padding="16dp"/>
+    -->
+    <!-- RecyclerView ajustado para no solaparse con el BottomNavigationView y el TextView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/propRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/propBottom_navigation"/>
+    <!--android:layout_below="@id/appNameTextView"/>-->
+
+    <!-- BottomNavigationView para la navegación -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/propBottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/colorSecundary"
+        app:menu="@menu/prop_bottom_navigation_view" />
+
+</RelativeLayout>

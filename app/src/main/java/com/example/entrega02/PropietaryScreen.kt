@@ -17,9 +17,9 @@ class PropietaryScreen :  AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.tourist_recycler_view)
+        setContentView(R.layout.propietary_recycler_view)
 
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = findViewById(R.id.propRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val cardList = mutableListOf<TouristicPlace>(
@@ -31,7 +31,7 @@ class PropietaryScreen :  AppCompatActivity() {
         }
         val adapter = PropietaryScreenTouristicPlaceAdapter(cardList)
         recyclerView.adapter = adapter
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.propBottom_navigation)
 
         // Set listener for BottomNavigationView items (deprecated only means keep using this version XD)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
