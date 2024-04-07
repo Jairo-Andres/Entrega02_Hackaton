@@ -38,7 +38,7 @@ class LoginScreen : AppCompatActivity() {
                             val currentUser = firebaseAuth.currentUser
                             currentUser?.let { user ->
                                 // Check if user is proprietary
-                                checkProprietaryStatus(user.uid)
+                                checkProprietaryStatus(user.uid, email)
                             }
                         } else {
                             Toast.makeText(
@@ -56,7 +56,7 @@ class LoginScreen : AppCompatActivity() {
         }
     }
 
-    private fun checkProprietaryStatus(userId: String) {
+    private fun checkProprietaryStatus(userId: String, userEmail: String) {
         firestore.collection("users").document(userId).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
@@ -64,11 +64,13 @@ class LoginScreen : AppCompatActivity() {
                     if (isPropietary) {
                         // User is proprietary, navigate to proprietary screen
                         val intent = Intent(this, PropietaryScreen::class.java)
+                        intent.putExtra("email",userEmail)
                         startActivity(intent)
                         finish()
                     } else {
                         // User is not proprietary, navigate to tourist screen
                         val intent = Intent(this, TouristScreen::class.java)
+                        intent.putExtra("email",userEmail)
                         startActivity(intent)
                         finish()
                     }

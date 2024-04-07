@@ -1,101 +1,93 @@
 package com.example.entrega02
 
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
+import com.google.firebase.firestore.FirebaseFirestore
 
-private const val FILE_NAME = "touristicPlaces.txt"
-class PropietaryScreen :  AppCompatActivity() {
+
+class PropietaryScreen : AppCompatActivity() {
+    private lateinit var userEmail: String
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PropietaryScreenTouristicPlaceAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.propietary_recycler_view)
 
-        val recyclerView: RecyclerView = findViewById(R.id.propRecyclerView)
+        userEmail = intent.getStringExtra("email") ?: ""
+        recyclerView = findViewById(R.id.propRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val cardList = mutableListOf<TouristicPlace>(
-        )
-        val places : ArrayList<TouristicPlace> = readTouristicPlacesFromTxtFile(this)
-        for(place in places)
-        {
-            cardList.add(place)
-        }
-        val adapter = PropietaryScreenTouristicPlaceAdapter(cardList)
+        adapter = PropietaryScreenTouristicPlaceAdapter(mutableListOf())
         recyclerView.adapter = adapter
+
+        loadTouristicPlacesFromFirebase()
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.propBottom_navigation)
 
         // Set listener for BottomNavigationView items (deprecated only means keep using this version XD)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
-                    finish()
-                    startActivity(Intent(this, PropietaryScreen::class.java))
                     true
                 }
+
                 R.id.navigation_search -> {
-                    finish()
-                    startActivity(Intent(this, PropietarySearchActivity::class.java))
+                    val intent = Intent(this, PropietarySearchActivity::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
                     true
                 }
+
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
+
                 else -> false
             }
         }
     }
-    fun readTouristicPlacesFromTxtFile(context: Context): ArrayList<TouristicPlace> {
-        val touristicPlaceList = ArrayList<TouristicPlace>()
 
-        try {
-            // Open the file from the assets folder
-            val inputStream: InputStream = context.assets.open(FILE_NAME)
-            val reader = BufferedReader(InputStreamReader(inputStream))
+    private fun loadTouristicPlacesFromFirebase() {
+        val placesCollection = "places"
+        val db = FirebaseFirestore.getInstance()
+        val placesRef = db.collection(placesCollection)
+            .whereEqualTo("email", userEmail)
 
-            var line: String?
+        placesRef.get()
+            .addOnSuccessListener { documents ->
+                val touristicPlaces = mutableListOf<TouristicPlace>()
+                for (document in documents) {
+                    val name = document.getString("placeName") ?: ""
+                    val picture = document.getString("url") ?: ""
+                    val latitude = document.getString("latitude") ?: ""
+                    val longitude = document.getString("longitude") ?: ""
+                    val coordinates = arrayListOf(latitude, longitude)
 
-            // Read each line from the file
-            while (reader.readLine().also { line = it } != null) {
-                val parts = line?.split(";")
-
-                if (parts?.size == 4) {
-                    val name = parts[0]
-                    val picture = parts[1]
-                    val scoresString = parts[2].split(" ") // Splitting scores separated by space
-                    val coordinates = parts[3].split(" ")
-                    val scores = ArrayList<Float>()
-                    val coordinateArray = ArrayList<String>()
-                    // Convert each score to float and add to scores list
-                    for (scoreString in scoresString) {
-                        val score = scoreString.toFloatOrNull() ?: continue
-                        scores.add(score)
-                    }
-                    for (coord in coordinates) {
-                        coordinateArray.add(coord)
-                    }
-                    // Create an TouristicPlace object and add it to the list
-                    val TouristicPlace = TouristicPlace(name, picture, scores, coordinateArray)
-                    touristicPlaceList.add(TouristicPlace)
+                    val reviewsRef = db.collection("placeReviews")
+                        .whereEqualTo("placeName", name) // Query reviews by placeID
+                    reviewsRef.get()
+                        .addOnSuccessListener { reviewsDocuments ->
+                            val scores = reviewsDocuments.mapNotNull { reviewDocument ->
+                                reviewDocument.getDouble("score")?.toFloat()
+                            }
+                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates)
+                            touristicPlaces.add(touristicPlace)
+                            adapter.updateData(touristicPlaces)
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
+                        }
                 }
             }
-
-            // Close the InputStream when done
-            inputStream.close()
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        return touristicPlaceList
+            .addOnFailureListener { exception ->
+                Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
+            }
     }
+
 }

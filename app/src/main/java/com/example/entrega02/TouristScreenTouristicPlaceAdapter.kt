@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 
 class TouristScreenTouristicPlaceAdapter(
-    private val originalCardList: List<TouristicPlace>
+    private var originalCardList: List<TouristicPlace>
 ) : RecyclerView.Adapter<TouristScreenTouristicPlaceAdapter.CardViewHolder>(), Filterable {
 
     private var cardList: List<TouristicPlace> = originalCardList.toList()
@@ -47,6 +47,11 @@ class TouristScreenTouristicPlaceAdapter(
 
     override fun getItemCount(): Int {
         return cardList.size
+    }
+    fun updateData(newTouristicPlaces: List<TouristicPlace>) {
+        originalCardList = newTouristicPlaces
+        cardList = newTouristicPlaces.toList()
+        notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter {

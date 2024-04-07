@@ -20,4 +20,5 @@
     <string name="review_filler">reseña de relleno :P</string>
     <string name="credencialesInvalidas">Error, credenciales no válidas, intente de nuevo</string>
     <string name="noCamposBlanco">Error, no puedes dejar campos en blanco</string>
+    <string name="error_cargando_datos_lo_sentimos">Error cargando datos, lo sentimos</string>
 </resources>

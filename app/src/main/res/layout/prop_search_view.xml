@@ -21,7 +21,7 @@
         android:id="@+id/prop_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchView"
+        android:layout_below="@id/prop_searchView"
         android:layout_above="@+id/prop_bottom_navigation"/>
 
     <!-- BottomNavigationView for navigation -->

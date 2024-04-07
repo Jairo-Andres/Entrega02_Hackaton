@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 
-class PropietaryScreenTouristicPlaceAdapter(private val originalCardList: List<TouristicPlace>) :
+class PropietaryScreenTouristicPlaceAdapter(private var originalCardList: List<TouristicPlace>) :
     RecyclerView.Adapter<PropietaryScreenTouristicPlaceAdapter.CardViewHolder>(), Filterable {
 
     private var cardList: List<TouristicPlace> = originalCardList.toList()
@@ -50,6 +50,11 @@ class PropietaryScreenTouristicPlaceAdapter(private val originalCardList: List<T
 
     override fun getItemCount(): Int {
         return cardList.size
+    }
+    fun updateData(newTouristicPlaces: List<TouristicPlace>) {
+        originalCardList = newTouristicPlaces
+        cardList = newTouristicPlaces.toList()
+        notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter {
