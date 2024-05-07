@@ -28,6 +28,13 @@
 # Local properties file
 local.properties
 
+# Gradle Daemon log
+*.log
+
+# Gradle registry files
+*.bin
+*.lock
+
 # Gradle wrapper
 .gradle/
 gradle/
@@ -41,3 +48,5 @@ gradle/
 
 # Kotlin build cache
 *.kotlin_module
+# Specific Kotlin profiler files
+*.profile
