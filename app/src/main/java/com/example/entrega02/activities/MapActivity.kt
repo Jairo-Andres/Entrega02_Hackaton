@@ -1,9 +1,8 @@
-package com.example.entrega02
+package com.example.entrega02.activities
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import androidx.appcompat.widget.SearchView
@@ -12,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.entrega02.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -41,11 +41,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_activity)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        // Set the map menu item as selected
+        bottomNavigationView.selectedItemId = R.id.navigation_search
+
         Toast.makeText(this, "Remember to turn on your device's location for this functionality to work", Toast.LENGTH_LONG).show()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         val mapSearch = findViewById<SearchView>(R.id.mapSearch)
+
         mapSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 val location = mapSearch.query.toString()
@@ -75,6 +80,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return false
             }
         })
+
+        // Set the map menu item as selected
+        bottomNavigationView.selectedItemId = R.id.navigation_map
         mapFragment.getMapAsync(this)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {

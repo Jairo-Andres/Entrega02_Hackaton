@@ -1,124 +1,123 @@
 package com.example.entrega02
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import android.Manifest
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.entrega02.R
+import com.example.entrega02.activities.MapActivity
+import com.example.entrega02.activities.ProfileActivity
+import com.example.entrega02.activities.TouristSearchActivity
+import com.example.entrega02.adapters.TouristScreenTouristicPlaceAdapter
+import com.example.entrega02.data.Review
+import com.example.entrega02.data.TouristicPlace
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+private const val FILE_NAME = "touristicPlaces.txt"
 
-private const val PERM_LOCATION_CODE = 103
-
-class TouristScreen : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: TouristScreenTouristicPlaceAdapter
+class TouristScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tourist_recycler_view)
 
-        recyclerView = findViewById(R.id.recyclerView)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf())
+        val cardList = mutableListOf<TouristicPlace>(
+        )
+        val places : ArrayList<TouristicPlace> = readTouristicPlacesFromTxtFile(this)
+        for(place in places)
+        {
+            cardList.add(place)
+        }
+        val adapter = TouristScreenTouristicPlaceAdapter(cardList)
         recyclerView.adapter = adapter
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        // Set the map menu item as selected
+        bottomNavigationView.selectedItemId = R.id.navigation_home
 
+        // Set listener for BottomNavigationView items
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
-
+                    startActivity(Intent(this, TouristScreenActivity::class.java))
                     true
                 }
                 R.id.navigation_search -> {
-                    finish()
                     startActivity(Intent(this, TouristSearchActivity::class.java))
                     true
                 }
-                R.id.navigation_profile -> {
-                    finish()
-                    startActivity(Intent(this, ProfileActivity::class.java))
+                R.id.navigation_map -> {
+                    startActivity(Intent(this, MapActivity::class.java))
                     true
                 }
-                R.id.navigation_map -> {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        startMapActivity()
-                    } else {
-                        requestLocationPermission()
-                    }
+                R.id.navigation_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 else -> false
             }
         }
-
-        loadTouristicPlacesFromFirebase()
     }
+    fun readTouristicPlacesFromTxtFile(context: Context): ArrayList<TouristicPlace> {
+        val touristicPlaceList = ArrayList<TouristicPlace>()
 
-    private fun requestLocationPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Toast.makeText(this, "Location permission is required to access this functionality 😭", Toast.LENGTH_LONG).show()
-        }
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERM_LOCATION_CODE)
-    }
+        try {
+            // Open the file from the assets folder
+            val inputStream: InputStream = context.assets.open(FILE_NAME)
+            val reader = BufferedReader(InputStreamReader(inputStream))
 
-    private fun startMapActivity() {
-        startActivity(Intent(this, MapActivity::class.java))
-    }
+            var line: String?
 
-    private fun loadTouristicPlacesFromFirebase() {
-        val placesCollection = "places"
-        val db = FirebaseFirestore.getInstance()
-        val placesRef = db.collection(placesCollection)
+            // Read each line from the file
+            while (reader.readLine().also { line = it } != null) {
+                val parts = line?.split(";")
 
-        placesRef.get()
-            .addOnSuccessListener { documents ->
-                val touristicPlaces = mutableListOf<TouristicPlace>()
-                for (document in documents) {
-                    val name = document.getString("placeName") ?: ""
-                    val picture = document.getString("url") ?: ""
-                    val latitude = document.getString("latitude") ?: ""
-                    val longitude = document.getString("longitude") ?: ""
-                    val coordinates = arrayListOf(latitude, longitude)
+                if (parts?.size == 4) {
+                    val name = parts[0]
+                    val picture = parts[1]
+                    val scoresString = parts[2].split(" ") // Splitting scores separated by space
+                    val coordinates = parts[3].split(" ")
+                    val scores = ArrayList<Float>()
+                    val coordinateArray = ArrayList<String>()
+                    // Convert each score to float and add to scores list
+                    for (scoreString in scoresString) {
+                        val score = scoreString.toFloatOrNull() ?: continue
+                        scores.add(score)
+                    }
+                    for (coord in coordinates) {
+                        coordinateArray.add(coord)
+                    }
+                    // Create a list of Review with predefined data
+                    val reviewsList = listOf(
+                        Review("User 1", 4.5f, "Buen lugar", "user_icon.png"),
+                        Review("User 2", 3.0f, "le faltaban cosas.", "user_icon.png"),
+                        Review("User 3", 4.5f, "Me gusto mucho el ambiente!", "user_icon.png"),
+                        Review("User 4", 3.0f, "No me gusto el el estilo .", "user_icon.png")
+                        // ...
+                    )
+                    val reviews = ArrayList(reviewsList)
 
-                    val reviewsRef = db.collection("placeReviews")
-                        .whereEqualTo("placeName", name) // Query reviews by placeID
-                    reviewsRef.get()
-                        .addOnSuccessListener { reviewsDocuments ->
-                            val scores = reviewsDocuments.mapNotNull { reviewDocument ->
-                                reviewDocument.getDouble("score")?.toFloat()
-                            }
-                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates)
-                            touristicPlaces.add(touristicPlace)
-                            adapter.updateData(touristicPlaces)
-                        }
-                        .addOnFailureListener { exception ->
-                            Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
-                        }
+                    // Create a TouristicPlace object and add it to the list
+                    val touristicPlace = TouristicPlace(name, picture, scores, coordinateArray, reviews)
+                    touristicPlaceList.add(touristicPlace)
                 }
             }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
-            }
-    }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERM_LOCATION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startMapActivity()
-            } else {
-                Toast.makeText(this, "Location permission denied 😔", Toast.LENGTH_SHORT).show()
-            }
+            // Close the InputStream when done
+            inputStream.close()
+
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
+
+        return touristicPlaceList
     }
 }
-

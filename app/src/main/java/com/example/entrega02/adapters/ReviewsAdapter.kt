@@ -1,13 +1,15 @@
-package com.example.entrega02
+package com.example.entrega02.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.RatingBar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entrega02.R
+import com.example.entrega02.data.Review
 
-class ReviewsAdapter(private val reviews: List<Float>) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
+class ReviewsAdapter(private val reviews: List<Review>) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_reviews, parent, false)
@@ -23,12 +25,15 @@ class ReviewsAdapter(private val reviews: List<Float>) : RecyclerView.Adapter<Re
     }
 
     inner class ReviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val userPhoto: ImageView = itemView.findViewById(R.id.user_photo)
+        private val userName: TextView = itemView.findViewById(R.id.user_name)
         private val ratingBar: RatingBar = itemView.findViewById(R.id.rating_bar)
         private val reviewContent: TextView = itemView.findViewById(R.id.text_review_content)
 
-        fun bind(score: Float) {
-            ratingBar.rating = score
-            reviewContent.text = "Score: $score"
+        fun bind(review: Review) {
+            userName.text = review.userName
+            ratingBar.rating = review.score
+            reviewContent.text = review.comment
         }
     }
 }

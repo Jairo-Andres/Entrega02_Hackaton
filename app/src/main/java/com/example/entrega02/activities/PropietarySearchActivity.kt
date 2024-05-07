@@ -1,45 +1,70 @@
-package com.example.entrega02
-
+package com.example.entrega02.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.entrega02.R
+import com.example.entrega02.data.TouristicPlace
+import com.example.entrega02.adapters.PropietaryScreenTouristicPlaceAdapter
+import com.example.entrega02.data.Review
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 
+class PropietarySearchActivity : AppCompatActivity() {
 
-class PropietaryScreen : AppCompatActivity() {
-    private lateinit var userEmail: String
     private lateinit var recyclerView: RecyclerView
+    private lateinit var searchView: SearchView
     private lateinit var adapter: PropietaryScreenTouristicPlaceAdapter
+    private lateinit var userEmail: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.propietary_recycler_view)
+        setContentView(R.layout.prop_search_view)
 
+        // Initialize views
+        recyclerView = findViewById(R.id.prop_recyclerView)
+        searchView = findViewById(R.id.prop_searchView)
+
+        //read Email
         userEmail = intent.getStringExtra("email") ?: ""
-        recyclerView = findViewById(R.id.propRecyclerView)
+
+        // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = PropietaryScreenTouristicPlaceAdapter(mutableListOf())
         recyclerView.adapter = adapter
 
         loadTouristicPlacesFromFirebase()
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.propBottom_navigation)
+
+        // Set up SearchView listener
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchView.clearFocus()
+                adapter.filter.filter(query)
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.prop_bottom_navigation)
 
         // Set listener for BottomNavigationView items (deprecated only means keep using this version XD)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
+                    val intent = Intent(this, PropietaryScreen::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
                     true
                 }
 
                 R.id.navigation_search -> {
-                    val intent = Intent(this, PropietarySearchActivity::class.java)
-                    intent.putExtra("email", userEmail)
-                    startActivity(intent)
                     true
                 }
 
@@ -76,18 +101,21 @@ class PropietaryScreen : AppCompatActivity() {
                             val scores = reviewsDocuments.mapNotNull { reviewDocument ->
                                 reviewDocument.getDouble("score")?.toFloat()
                             }
-                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates)
+                            val reviews = reviewsDocuments.mapNotNull { reviewDocument ->
+                                reviewDocument.toObject(Review::class.java)
+                            }
+                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates, reviews as ArrayList<Review>)
                             touristicPlaces.add(touristicPlace)
                             adapter.updateData(touristicPlaces)
                         }
                         .addOnFailureListener { exception ->
-                            Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),
+                                Toast.LENGTH_LONG).show()
                         }
                 }
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
+                Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos), Toast.LENGTH_LONG).show()
             }
     }
-
 }

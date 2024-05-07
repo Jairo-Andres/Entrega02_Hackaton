@@ -1,4 +1,4 @@
-package com.example.entrega02
+package com.example.entrega02.activities
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,6 +10,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.entrega02.R
+import com.example.entrega02.adapters.TouristScreenTouristicPlaceAdapter
+import com.example.entrega02.data.Review
+import com.example.entrega02.data.TouristicPlace
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -48,6 +52,9 @@ class TouristSearchActivity : AppCompatActivity() {
         })
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        // Set the map menu item as selected
+        bottomNavigationView.selectedItemId = R.id.navigation_search
 
         // Set listener for BottomNavigationView items
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
@@ -102,7 +109,10 @@ class TouristSearchActivity : AppCompatActivity() {
                             val scores = reviewsDocuments.mapNotNull { reviewDocument ->
                                 reviewDocument.getDouble("score")?.toFloat()
                             }
-                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates)
+                            val reviews = reviewsDocuments.mapNotNull { reviewDocument ->
+                                reviewDocument.toObject(Review::class.java)
+                            }
+                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates, reviews as ArrayList<Review>)
                             touristicPlaces.add(touristicPlace)
                             adapter.updateData(touristicPlaces)
                         }

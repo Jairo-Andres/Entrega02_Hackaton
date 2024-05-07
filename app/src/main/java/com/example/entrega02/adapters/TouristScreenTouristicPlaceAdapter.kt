@@ -1,4 +1,4 @@
-package com.example.entrega02
+package com.example.entrega02.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,6 +9,9 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.entrega02.R
+import com.example.entrega02.activities.TouristMoreInfo
+import com.example.entrega02.data.TouristicPlace
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 

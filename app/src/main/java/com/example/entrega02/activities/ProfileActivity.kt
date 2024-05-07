@@ -1,11 +1,8 @@
-package com.example.entrega02
-import android.content.Context
-import android.content.Intent
+package com.example.entrega02.activities
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.entrega02.R
 
 class ProfileActivity : AppCompatActivity() {
 

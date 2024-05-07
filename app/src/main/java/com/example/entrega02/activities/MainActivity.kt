@@ -1,10 +1,11 @@
-package com.example.entrega02
+package com.example.entrega02.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import android.widget.Button
 import com.example.entrega02.databinding.LoginOrRegisterBinding
 import android.content.Intent
+import com.example.entrega02.R
 
 
 class MainActivity : ComponentActivity() {
