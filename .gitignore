@@ -1,15 +1,43 @@
 *.iml
 .gradle
 /local.properties
+
+# IntelliJ IDEA files
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
+# macOS system files
 .DS_Store
+
+# Build output
 /build
+
+# Captures for screenshots and videos from Android Studio
 /captures
+
+# External native build folder
 .externalNativeBuild
+
+# C++ build folder
 .cxx
+
+# Local properties file
 local.properties
+
+# Gradle wrapper
+.gradle/
+gradle/
+/gradlew
+/gradlew.bat
+
+# Gradle caches
+/.gradle
+/caches/
+/tmp/
+
+# Kotlin build cache
+*.kotlin_module
