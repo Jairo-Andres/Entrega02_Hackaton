@@ -128,6 +128,7 @@
             android:textOff="Off"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/zoomSlider"
             app:layout_constraintTop_toBottomOf="@+id/searchField"
             app:thumbIcon="@drawable/baseline_gps_fixed_24" />
 
@@ -136,7 +137,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="0dp"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         android:layout_margin="8dp"
         android:layout_marginBottom="100dp"
         android:checkable="true"
