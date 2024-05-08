@@ -21,4 +21,14 @@
     <string name="credencialesInvalidas">Error, credenciales no válidas, intente de nuevo</string>
     <string name="noCamposBlanco">Error, no puedes dejar campos en blanco</string>
     <string name="error_cargando_datos_lo_sentimos">Error cargando datos, lo sentimos</string>
+
+    <string name="snackbar_dismiss_label">Cerrar</string>
+    <string name="camara_button_name">Camara</string>
+    <string name="gallery_button_name">Galeria</string>
+    <string name="video_switch_label">Video</string>
+    <string name="take">Tomar</string>
+    <string name="pick_from_gallery">Escoger de Galeria</string>
+    <string name="map_button_name">Mapa</string>
+    <string name="label_search">Buscar Lugar</string>
+
 </resources>
