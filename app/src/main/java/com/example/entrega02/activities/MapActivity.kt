@@ -1,6 +1,7 @@
 package com.example.entrega02.activities
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Location
@@ -8,8 +9,10 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.example.entrega02.databinding.MapActivityBinding
 import com.example.entrega02.utils.Alerts
 import com.example.entrega02.utils.GeocoderSearch
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: MapActivityBinding
@@ -112,6 +116,40 @@ class MapActivity : AppCompatActivity() {
         binding.switchFollowDog.setOnCheckedChangeListener { _, isChecked ->
             fragment.moveCamera = isChecked
         }
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        // Set the map menu item as selected
+        bottomNavigationView.selectedItemId = R.id.navigation_map
+
+        // Set listener for BottomNavigationView items
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_home -> {
+                    finish()
+                    startActivity(Intent(this, TouristScreen::class.java))
+                    true
+                }
+                R.id.navigation_search -> {
+                    finish()
+                    startActivity(Intent(this, TouristSearchActivity::class.java))
+                    true
+                }
+                R.id.navigation_profile -> {
+                    finish()
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.navigation_map -> {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    } else {
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
 
