@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="41dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/fondo_principal" />
 
 
     <TextView
