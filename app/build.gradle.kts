@@ -70,9 +70,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
     implementation("com.squareup.picasso:picasso:2.71828")
 
+    //Mapas
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -82,5 +82,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
 
+   //views
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
 }
