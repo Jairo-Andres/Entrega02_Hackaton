@@ -30,6 +30,7 @@ import com.example.entrega02.databinding.MapActivityBinding
 import com.example.entrega02.utils.Alerts
 import com.example.entrega02.utils.GeocoderSearch
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.materialswitch.MaterialSwitch
 
 class MapActivity : AppCompatActivity() {
     private lateinit var binding: MapActivityBinding
@@ -89,6 +90,10 @@ class MapActivity : AppCompatActivity() {
 
 
         fragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as MapsFragment
+        val switchFollowDog = findViewById<MaterialSwitch>(R.id.switchFollowDog)
+        switchFollowDog.setOnCheckedChangeListener { _, isChecked ->
+            fragment.isOrientationEnabled = isChecked
+        }
         geocoderSearch = GeocoderSearch(this)
         binding.searchField.editText?.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {

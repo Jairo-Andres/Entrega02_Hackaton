@@ -15,6 +15,7 @@ import android.location.Location
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,9 @@ import okio.IOException
 import org.json.JSONObject
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.Polyline
+import com.google.android.material.materialswitch.MaterialSwitch
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +58,8 @@ class MapsFragment : Fragment(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private lateinit var lightSensor: Sensor
+    private var rotationVectorSensor: Sensor? = null
+    var isOrientationEnabled = false
 
     private var polylinePoints = mutableListOf<LatLng>()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -129,6 +134,8 @@ class MapsFragment : Fragment(), SensorEventListener {
 
         sensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)!!
+        rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -321,6 +328,38 @@ class MapsFragment : Fragment(), SensorEventListener {
         }
     }
 
+    private val sensorEventListener = object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            if (event.sensor.type == Sensor.TYPE_ROTATION_VECTOR) {
+                val rotationMatrix = FloatArray(9)
+                SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+
+                val adjustedRotationMatrix = FloatArray(9)
+                SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, adjustedRotationMatrix)
+
+                val orientation = FloatArray(3)
+                SensorManager.getOrientation(adjustedRotationMatrix, orientation)
+
+                val bearing = Math.toDegrees(orientation[0].toDouble()).toFloat()
+
+                if (isOrientationEnabled) {
+                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(
+                        CameraPosition.builder()
+                            .target(gMap.cameraPosition.target)
+                            .zoom(gMap.cameraPosition.zoom)
+                            .bearing(bearing)
+                            .build()
+                    )
+                    gMap.moveCamera(cameraUpdate)
+                }
+            }
+        }
+
+        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+            Log.d("SensorAccuracy", "La precisión del sensor ${sensor.name} ha cambiado a $accuracy")
+        }
+    }
+
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
         //Do nothing
     }
@@ -328,10 +367,12 @@ class MapsFragment : Fragment(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_UI)
+        sensorManager.registerListener(sensorEventListener, rotationVectorSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
+        sensorManager.unregisterListener(sensorEventListener)
     }
 }
