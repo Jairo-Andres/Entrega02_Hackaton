@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entrega02.R
-import com.example.entrega02.TouristScreenActivity
 import com.example.entrega02.adapters.ExperienciasAdapter
 import com.example.entrega02.data.PermissionCodes
 import com.example.entrega02.data.InfoUser
@@ -84,7 +83,7 @@ class ProfileActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
-                    startActivity(Intent(this, TouristScreenActivity::class.java))
+                    startActivity(Intent(this, TouristScreen::class.java))
                     true
                 }
                 R.id.navigation_search -> {

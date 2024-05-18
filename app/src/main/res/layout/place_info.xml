@@ -39,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Entre el 14 y 16 de julio se realizará el “2° Encuentro de Clubes de Avistamiento de Aves del departamento de Caldas, la primera versión de manera presencial"
             android:textSize="20sp"
             android:textStyle="italic"
             android:layout_gravity="center_horizontal"

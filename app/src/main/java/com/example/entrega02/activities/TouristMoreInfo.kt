@@ -34,10 +34,12 @@ class TouristMoreInfo: AppCompatActivity() {
         val myTextView = findViewById<TextView>(R.id.InfoPlaceName)
         val myImageView = findViewById<ImageView>(R.id.InfoPlaceImage)
         val viewReviews = findViewById<FloatingActionButton>(R.id.viewReviews)
+        val placeInfoText = findViewById<TextView>(R.id.InfoPlaceDescription)
         val navigateButton = findViewById<FloatingActionButton>(R.id.navigate)
 
         // Set the text for the TextView
         myTextView.text = derivedObject.name
+        placeInfoText.text = derivedObject.placeDescription
 
         // Load the image into the ImageView using Picasso
         Picasso.get().load(derivedObject.picture).into(myImageView)

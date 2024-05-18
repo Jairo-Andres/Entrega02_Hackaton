@@ -7,5 +7,6 @@ data class TouristicPlace(
     val picture: String,
     val scores: List<Float>,
     val coordinates:ArrayList<String>,
-    val reviews: ArrayList<Review>
+    val reviews: ArrayList<Review>,
+    val placeDescription: String
 ): Serializable
