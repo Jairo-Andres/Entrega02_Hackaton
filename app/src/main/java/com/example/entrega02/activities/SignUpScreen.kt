@@ -1,5 +1,6 @@
 package com.example.entrega02.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -57,6 +58,19 @@ class SignUpScreen: AppCompatActivity() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         finish()
+                                        if (isPropietary) {
+                                            // User is proprietary, navigate to proprietary screen
+                                            val intent = Intent(this, PropietaryScreen::class.java)
+                                            intent.putExtra("email",email)
+                                            startActivity(intent)
+                                            finish()
+                                        } else {
+                                            // User is not proprietary, navigate to tourist screen
+                                            val intent = Intent(this, TouristScreen::class.java)
+                                            intent.putExtra("email",email)
+                                            startActivity(intent)
+                                            finish()
+                                        }
                                     }
                                     .addOnFailureListener { e ->
                                         Toast.makeText(

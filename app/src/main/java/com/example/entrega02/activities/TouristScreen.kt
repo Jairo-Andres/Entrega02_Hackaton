@@ -21,17 +21,18 @@ private const val PERM_LOCATION_CODE = 103
 
 class TouristScreen : AppCompatActivity() {
 
+    private lateinit var userEmail : String
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TouristScreenTouristicPlaceAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tourist_recycler_view)
-
+        userEmail = intent.getStringExtra("email") ?: ""
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf())
+        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf(), userEmail)
         recyclerView.adapter = adapter
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)

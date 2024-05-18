@@ -23,18 +23,19 @@ class TouristSearchActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var adapter: TouristScreenTouristicPlaceAdapter
     private val PERM_LOCATION_CODE = 103
+    private lateinit var email:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.search_view)
-
+        email = intent.getStringExtra("email") ?: ""
         // Initialize views
         recyclerView = findViewById(R.id.recyclerView)
         searchView = findViewById(R.id.searchView)
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf())
+        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf(), email)
         recyclerView.adapter = adapter
 
         // Set up SearchView listener

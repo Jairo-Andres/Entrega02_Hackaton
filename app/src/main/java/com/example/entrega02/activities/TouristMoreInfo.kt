@@ -20,10 +20,12 @@ import com.squareup.picasso.Picasso
 
 class TouristMoreInfo: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.place_info)
+        email = intent.getStringExtra("email") ?: ""
 
         // Obtén la referencia al RecyclerView
         recyclerView = findViewById(R.id.recycler_view)
@@ -47,6 +49,7 @@ class TouristMoreInfo: AppCompatActivity() {
         viewReviews.setOnClickListener{
             val intent = Intent(this, Reviews::class.java)
             intent.putExtra("object", derivedObject)
+            intent.putExtra("email", email)
             startActivity(intent)
         }
 

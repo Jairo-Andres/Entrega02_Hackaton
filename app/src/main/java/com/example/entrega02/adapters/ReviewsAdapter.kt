@@ -1,4 +1,5 @@
 package com.example.entrega02.adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.entrega02.R
 import com.example.entrega02.data.Review
 
-class ReviewsAdapter(private val reviews: List<Review>) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
+class ReviewsAdapter(private var reviews: MutableList<Review>) : RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_reviews, parent, false)
@@ -35,5 +36,11 @@ class ReviewsAdapter(private val reviews: List<Review>) : RecyclerView.Adapter<R
             ratingBar.rating = review.score
             reviewContent.text = review.comment
         }
+    }
+
+    fun updateReviews(newReviews: List<Review>) {
+        reviews.clear()
+        reviews.addAll(newReviews)
+        notifyDataSetChanged()
     }
 }

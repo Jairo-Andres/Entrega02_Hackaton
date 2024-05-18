@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 
 class TouristScreenTouristicPlaceAdapter(
-    private var originalCardList: List<TouristicPlace>
+    private var originalCardList: List<TouristicPlace>, private val email:String
 ) : RecyclerView.Adapter<TouristScreenTouristicPlaceAdapter.CardViewHolder>(), Filterable {
 
     private var cardList: List<TouristicPlace> = originalCardList.toList()
@@ -44,6 +44,7 @@ class TouristScreenTouristicPlaceAdapter(
             // too soon
             val intent = Intent(holder.imageView.context, TouristMoreInfo::class.java)
             intent.putExtra("object", currentItem)
+            intent.putExtra("email", email)
             holder.itemView.context.startActivity(intent)
         }
     }

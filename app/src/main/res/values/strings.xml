@@ -32,5 +32,7 @@
     <string name="label_search">Buscar Lugar</string>
 
     <string name="experiencia">Registrar Experiencia</string>
+    <string name="resena_agregada">Se ha agregado tu reseña! :)</string>
+    <string name="resena_actualizada">Se ha actualizado tu reseña! :)</string>
 
 </resources>
