@@ -53,6 +53,7 @@ class ProfileActivity : AppCompatActivity() {
 
         findViewById<CircleImageView>(R.id.icn_logout).setOnClickListener {
             val intent = Intent(applicationContext, LoginScreen::class.java)
+            finish()
             startActivity(intent)
         }
 
@@ -84,18 +85,22 @@ class ProfileActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, TouristScreen::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_search -> {
                     startActivity(Intent(this, TouristSearchActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_map -> {
                     startActivity(Intent(this, MapActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false

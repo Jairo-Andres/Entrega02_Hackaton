@@ -137,5 +137,6 @@ class TouristSearchActivity : AppCompatActivity() {
 
     private fun startMapActivity() {
         startActivity(Intent(this, MapActivity::class.java))
+        finish()
     }
 }

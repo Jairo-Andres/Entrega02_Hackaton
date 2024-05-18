@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.entrega02.R
 import com.example.entrega02.data.Review
 import com.example.entrega02.data.TouristicPlace
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
@@ -54,21 +55,13 @@ class TouristMoreInfo: AppCompatActivity() {
         }
 
         navigateButton.setOnClickListener {
-            val latitude = derivedObject.coordinates[0]
-            val longitude = derivedObject.coordinates[1]
-
-            // Construct the URI for Google Maps navigation
-            val uri = "http://maps.google.com/maps?saddr=Current+Location&daddr=$latitude,$longitude"
+            val placeName = derivedObject.name
 
             // Create an Intent with ACTION_VIEW and the URI
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-
-            // Set the package to Google Maps
-            intent.setPackage("com.google.android.apps.maps")
+            val intent = Intent(this, MapActivity::class.java)
+            intent.putExtra("name", placeName)
             startActivity(intent)
-            // Create an Intent with ACTION_VIEW and the URI
-            //val intent = Intent(this, MapaEventosActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         // Calcula la puntuación media de las reseñas
@@ -90,18 +83,22 @@ class TouristMoreInfo: AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, TouristScreen::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_search -> {
                     startActivity(Intent(this, TouristSearchActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_map -> {
                     startActivity(Intent(this, MapActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false

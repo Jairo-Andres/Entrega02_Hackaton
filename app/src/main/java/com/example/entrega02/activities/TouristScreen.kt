@@ -77,6 +77,7 @@ class TouristScreen : AppCompatActivity() {
 
     private fun startMapActivity() {
         startActivity(Intent(this, MapActivity::class.java))
+        finish()
     }
 
     private fun loadTouristicPlacesFromFirebase() {

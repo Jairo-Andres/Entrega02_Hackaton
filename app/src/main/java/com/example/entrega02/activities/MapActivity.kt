@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.entrega02.MapsFragment
 import com.example.entrega02.R
+import com.example.entrega02.data.TouristicPlace
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Granularity
 import com.google.android.gms.location.LocationCallback
@@ -40,6 +41,7 @@ class MapActivity : AppCompatActivity() {
     private val PERM_LOCATION_CODE = 303
     private lateinit var position: Location
     private lateinit var fragment: MapsFragment
+    private lateinit var targetCoordinates: LatLng
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: com.google.android.gms.location.LocationRequest
@@ -53,6 +55,8 @@ class MapActivity : AppCompatActivity() {
 
         binding = MapActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val targetPlace = intent.getStringExtra("name")
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -87,9 +91,11 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
-
         fragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as MapsFragment
         geocoderSearch = GeocoderSearch(this)
+        if(targetPlace != null) {
+            binding.searchField.editText?.setText(targetPlace)
+        }
         binding.searchField.editText?.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
@@ -128,16 +134,19 @@ class MapActivity : AppCompatActivity() {
                 R.id.navigation_home -> {
                     finish()
                     startActivity(Intent(this, TouristScreen::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_search -> {
                     finish()
                     startActivity(Intent(this, TouristSearchActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_profile -> {
                     finish()
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                     true
                 }
                 R.id.navigation_map -> {
@@ -175,7 +184,7 @@ class MapActivity : AppCompatActivity() {
 
     private fun setupLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        locationRequest = com.google.android.gms.location.LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).apply {
+        locationRequest = com.google.android.gms.location.LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 500).apply {
             setMinUpdateDistanceMeters(5F)
             setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
             setWaitForAccurateLocation(true)

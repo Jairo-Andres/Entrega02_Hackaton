@@ -44,11 +44,13 @@ class PropietaryScreen : AppCompatActivity() {
                     val intent = Intent(this, PropietarySearchActivity::class.java)
                     intent.putExtra("email", userEmail)
                     startActivity(intent)
+                    finish()
                     true
                 }
 
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                     true
                 }
 

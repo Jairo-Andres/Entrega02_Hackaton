@@ -22,9 +22,11 @@ class MainActivity : ComponentActivity() {
         //user chooses to login or register
         btn_login.setOnClickListener {
             startActivity(Intent(this, LoginScreen::class.java))
+            finish()
         }
         btn_register.setOnClickListener {
             startActivity(Intent(this, SignUpScreen::class.java))
+            finish()
         }
     }
 }

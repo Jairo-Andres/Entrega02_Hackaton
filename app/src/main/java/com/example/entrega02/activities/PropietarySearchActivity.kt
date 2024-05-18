@@ -61,6 +61,7 @@ class PropietarySearchActivity : AppCompatActivity() {
                     val intent = Intent(this, PropietaryScreen::class.java)
                     intent.putExtra("email", userEmail)
                     startActivity(intent)
+                    finish()
                     true
                 }
 
@@ -70,6 +71,7 @@ class PropietarySearchActivity : AppCompatActivity() {
 
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                     true
                 }
 
