@@ -228,7 +228,7 @@ class MapsFragment : Fragment(), SensorEventListener {
         return poly
     }
 
-    private fun addPoint(latLng: LatLng) {
+    public fun addPoint(latLng: LatLng) {
 
         // Elimina el marcador actual si existe
         currentMarker?.remove()
