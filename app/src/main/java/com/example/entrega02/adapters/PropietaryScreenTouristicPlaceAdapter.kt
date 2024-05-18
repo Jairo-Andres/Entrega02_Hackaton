@@ -10,12 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entrega02.R
+import com.example.entrega02.activities.EditPlace
+import com.example.entrega02.activities.PropReviews
 import com.example.entrega02.activities.Reviews
 import com.example.entrega02.data.TouristicPlace
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 
-class PropietaryScreenTouristicPlaceAdapter(private var originalCardList: List<TouristicPlace>) :
+class PropietaryScreenTouristicPlaceAdapter(private var originalCardList: List<TouristicPlace>, private val email:String) :
     RecyclerView.Adapter<PropietaryScreenTouristicPlaceAdapter.CardViewHolder>(), Filterable {
 
     private var cardList: List<TouristicPlace> = originalCardList.toList()
@@ -42,10 +44,13 @@ class PropietaryScreenTouristicPlaceAdapter(private var originalCardList: List<T
 
         // Set the click listener for the floating button
         holder.floatingButton1.setOnClickListener {
-            //too soon
+            val intent = Intent(holder.imageView.context, EditPlace::class.java)
+            intent.putExtra("object", currentItem)
+            intent.putExtra("email", email)
+            holder.itemView.context.startActivity(intent)
         }
         holder.floatingButton2.setOnClickListener {
-            val intent = Intent(holder.imageView.context, Reviews::class.java)
+            val intent = Intent(holder.imageView.context, PropReviews::class.java)
             intent.putExtra("object", currentItem)
             holder.itemView.context.startActivity(intent)
         }

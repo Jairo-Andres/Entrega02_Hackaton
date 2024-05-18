@@ -103,6 +103,7 @@ class TouristSearchActivity : AppCompatActivity() {
                     val longitude = document.getString("longitude") ?: ""
                     val coordinates = arrayListOf(latitude, longitude)
                     val placeDescription = document.getString("placeDescription") ?: ""
+                    val ID = document.id
 
                     val reviewsRef = db.collection("placeReviews")
                         .whereEqualTo("placeName", name) // Query reviews by placeID
@@ -114,7 +115,7 @@ class TouristSearchActivity : AppCompatActivity() {
                             val reviews = reviewsDocuments.mapNotNull { reviewDocument ->
                                 reviewDocument.toObject(Review::class.java)
                             }
-                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates, reviews as ArrayList<Review>,placeDescription)
+                            val touristicPlace = TouristicPlace(ID,name, picture, scores as ArrayList<Float>, coordinates, reviews as ArrayList<Review>,placeDescription)
                             touristicPlaces.add(touristicPlace)
                             adapter.updateData(touristicPlaces)
                         }

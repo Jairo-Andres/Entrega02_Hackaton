@@ -10,6 +10,11 @@
         android:title="@string/title_search" />
 
     <item
+        android:id="@+id/addPlace"
+        android:icon="@drawable/add_circle"
+        android:title="@string/add_place" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profilepx"
         android:title="@string/title_profile" />

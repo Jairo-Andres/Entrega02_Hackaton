@@ -32,6 +32,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
         android:background="@color/colorSecundary"
-        app:menu="@menu/prop_bottom_navigation_view" />
+        app:menu="@menu/prop_bottom_navigation_view"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorPrimary"/>
 
 </RelativeLayout>

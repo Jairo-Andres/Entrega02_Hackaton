@@ -34,7 +34,7 @@ class PropietarySearchActivity : AppCompatActivity() {
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = PropietaryScreenTouristicPlaceAdapter(mutableListOf())
+        adapter = PropietaryScreenTouristicPlaceAdapter(mutableListOf(), userEmail)
         recyclerView.adapter = adapter
 
         loadTouristicPlacesFromFirebase()
@@ -96,6 +96,7 @@ class PropietarySearchActivity : AppCompatActivity() {
                     val longitude = document.getString("longitude") ?: ""
                     val coordinates = arrayListOf(latitude, longitude)
                     val placeDescription = document.getString("placeDescription")?: ""
+                    val ID = document.id
 
                     val reviewsRef = db.collection("placeReviews")
                         .whereEqualTo("placeName", name) // Query reviews by placeID
@@ -107,7 +108,7 @@ class PropietarySearchActivity : AppCompatActivity() {
                             val reviews = reviewsDocuments.mapNotNull { reviewDocument ->
                                 reviewDocument.toObject(Review::class.java)
                             }
-                            val touristicPlace = TouristicPlace(name, picture, scores as ArrayList<Float>, coordinates, reviews as ArrayList<Review>,placeDescription)
+                            val touristicPlace = TouristicPlace(ID,name, picture, scores as ArrayList<Float>, coordinates, reviews as ArrayList<Review>,placeDescription)
                             touristicPlaces.add(touristicPlace)
                             adapter.updateData(touristicPlaces)
                         }

@@ -45,13 +45,13 @@ class Reviews : AppCompatActivity() {
             val newReviewText = reviewText.text.toString()
             val userReview = hashMapOf(
                 "email" to email,
-                "placeName" to touristicPlace.name,
+                "placeID" to touristicPlace.ID,
                 "score" to newRating,
                 "review" to newReviewText
             )
 
             val reviewsRef = db.collection("placeReviews")
-            reviewsRef.whereEqualTo("email", email).whereEqualTo("placeName", touristicPlace.name).get().addOnSuccessListener { documents ->
+            reviewsRef.whereEqualTo("email", email).whereEqualTo("placeID", touristicPlace.ID).get().addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
                     // No existing review, add a new one
                     reviewsRef.add(userReview)
@@ -95,7 +95,7 @@ class Reviews : AppCompatActivity() {
         super.onStart()
         val touristicPlace = intent.getSerializableExtra("object") as TouristicPlace
 
-        val reviewsRef = db.collection("placeReviews").whereEqualTo("placeName", touristicPlace.name)
+        val reviewsRef = db.collection("placeReviews").whereEqualTo("placeID", touristicPlace.ID)
         reviewListener = reviewsRef.addSnapshotListener { snapshots, e ->
             if (e != null) {
                 Toast.makeText(this, "Listen failed: ${e.message}", Toast.LENGTH_LONG).show()
