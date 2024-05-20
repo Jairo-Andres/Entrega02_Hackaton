@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +15,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.entrega02.R
 import com.example.entrega02.adapters.ExperienciasAdapter
 import com.example.entrega02.data.PermissionCodes
 import com.example.entrega02.data.InfoUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.Arrays
 
@@ -30,9 +36,24 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var takePictureLauncher: ActivityResultLauncher<Uri>
     private var photoURI: Uri? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile)
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            loadUserImageFromFirestore(userId)
+            loadUserEmailFromFirestore(userId)
+        }
+
+        // Configuración de pickers de imagen
+        setupImagePickers()
+
+        // Aquí es donde debes poner el código
+        val emailTextView = findViewById<TextView>(R.id.txt_email)
+        val userEmail = intent.getStringExtra("email")
+        emailTextView.text = userEmail
 
         fotoPaseador = findViewById(R.id.icn_perfil)
 
@@ -109,10 +130,75 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+
+    fun loadUserEmailFromFirestore(userId: String) {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(userId)
+        ref.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val userEmail = document.getString("email")
+                    if (userEmail != null) {
+                        val emailTextView = findViewById<TextView>(R.id.txt_email)
+                        emailTextView.text = userEmail
+                    }
+                }
+            }
+            .addOnFailureListener {
+                // Aquí puedes agregar un mensaje de registro o de depuración
+            }
+    }
+
+    fun uploadImageToFirebaseStorage(imageUri: Uri, userId: String) {
+        val ref = FirebaseStorage.getInstance().getReference("/images/$userId")
+        ref.putFile(imageUri)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    saveUserImageToFirestore(uri.toString(), userId)
+                }
+            }
+            .addOnFailureListener {
+                // Manejo de error
+            }
+    }
+
+    fun saveUserImageToFirestore(imageUrl: String, userId: String) {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(userId)
+        ref.update("imageUrl", imageUrl)
+            .addOnSuccessListener {
+                println("Image URL saved successfully.")
+            }
+            .addOnFailureListener {
+                // Manejo de error
+            }
+    }
+
+    fun loadUserImageFromFirestore(userId: String) {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(userId)
+        ref.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val imageUrl = document.getString("imageUrl")
+                    if (imageUrl != null) {
+                        Glide.with(this)
+                            .load(imageUrl)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .into(fotoPaseador)
+                    }
+                }
+            }
+            .addOnFailureListener {
+                // Manejo de error
+            }
+    }
+
+
     private fun setupImagePickers() {
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
                 fotoPaseador.setImageURI(uri)
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+                userId?.let { id -> uploadImageToFirebaseStorage(uri, id) }
             }
         }
 
@@ -120,10 +206,13 @@ class ProfileActivity : AppCompatActivity() {
             if (success) {
                 photoURI?.let {
                     fotoPaseador.setImageURI(it)
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    userId?.let { id -> uploadImageToFirebaseStorage(it, id) }
                 }
             }
         }
     }
+
 
     private fun handleCameraPermission() {
         when {
@@ -157,6 +246,14 @@ class ProfileActivity : AppCompatActivity() {
 
         photoURI?.let { uri ->
             takePictureLauncher.launch(uri)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            loadUserImageFromFirestore(userId)
         }
     }
 

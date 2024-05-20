@@ -49,8 +49,10 @@ class TouristScreen : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_profile -> {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
                     finish()
-                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 R.id.navigation_map -> {
