@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.entrega02.R
 import com.example.entrega02.activities.PropietaryScreen
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,6 +30,7 @@ class AddPlace : AppCompatActivity() {
     private lateinit var infoPlaceName: EditText
     private lateinit var infoPlaceDescription: EditText
     private var imageUri: Uri? = null
+    private lateinit var bottomBar: BottomNavigationView
 
     private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -47,6 +49,7 @@ class AddPlace : AppCompatActivity() {
         infoPlaceName = findViewById(R.id.InfoPlaceName)
         infoPlaceDescription = findViewById(R.id.InfoPlaceDescription)
         placePicture = findViewById(R.id.InfoPlaceImage)
+        bottomBar = findViewById(R.id.bottom_navigation)
 
         val cancelButton: FloatingActionButton = findViewById(R.id.cancel)
         val saveButton: FloatingActionButton = findViewById(R.id.save)
@@ -55,6 +58,39 @@ class AddPlace : AppCompatActivity() {
 
         placePicture.setOnClickListener {
             imagePickerLauncher.launch("image/*")
+        }
+
+        bottomBar.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, PropietaryScreen::class.java)
+                    intent.putExtra("email", propEmail)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+
+                R.id.navigation_search -> {
+                    val intent = Intent(this, PropietarySearchActivity::class.java)
+                    intent.putExtra("email", propEmail)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+
+                R.id.navigation_profile -> {
+                    val intent = Intent(this, PropietaryProfileActivity::class.java)
+                    intent.putExtra("email", propEmail)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.addPlace ->{
+                    true
+                }
+
+                else -> false
+            }
         }
 
         cancelButton.setOnClickListener {
