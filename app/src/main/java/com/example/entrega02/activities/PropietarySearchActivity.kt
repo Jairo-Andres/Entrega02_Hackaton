@@ -76,6 +76,13 @@ class PropietarySearchActivity : AppCompatActivity() {
                     finish()
                     true
                 }
+                R.id.addPlace ->{
+                    val intent = Intent(this, AddPlace::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
 
                 else -> false
             }
