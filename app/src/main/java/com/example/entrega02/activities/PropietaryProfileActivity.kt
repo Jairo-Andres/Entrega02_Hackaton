@@ -28,7 +28,7 @@ import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.Arrays
 
-class ProfileActivity : AppCompatActivity() {
+class PropietaryProfileActivity : AppCompatActivity() {
 
     private var isNotified = false
     private lateinit var fotoPaseador: ImageView
@@ -40,7 +40,7 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.profile)
+        setContentView(R.layout.propietary_profile)
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
@@ -97,7 +97,7 @@ class ProfileActivity : AppCompatActivity() {
             handleCameraPermission()
         }
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.prop_bottom_navigation)
 
         // Set the map menu item as selected
         bottomNavigationView.selectedItemId = R.id.navigation_profile
@@ -106,22 +106,20 @@ class ProfileActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
-                    val intent = Intent(this, TouristScreen::class.java)
+                    val intent = Intent(this, PropietaryScreen::class.java)
                     intent.putExtra("email", userEmail)
                     startActivity(intent)
                     finish()
                     true
                 }
                 R.id.navigation_search -> {
-                    val intent = Intent(this, TouristSearchActivity::class.java)
+                    val intent = Intent(this, PropietarySearchActivity::class.java)
                     intent.putExtra("email", userEmail)
                     startActivity(intent)
                     finish()
                     true
                 }
-                R.id.navigation_map -> {
-                    startActivity(Intent(this, MapActivity::class.java))
-                    finish()
+                R.id.addPlace -> {
                     true
                 }
                 R.id.navigation_profile -> {

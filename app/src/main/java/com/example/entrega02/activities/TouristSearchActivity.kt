@@ -23,19 +23,19 @@ class TouristSearchActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var adapter: TouristScreenTouristicPlaceAdapter
     private val PERM_LOCATION_CODE = 103
-    private lateinit var email:String
+    private lateinit var userEmail:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.search_view)
-        email = intent.getStringExtra("email") ?: ""
+        userEmail = intent.getStringExtra("email") ?: ""
         // Initialize views
         recyclerView = findViewById(R.id.recyclerView)
         searchView = findViewById(R.id.searchView)
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf(), email)
+        adapter = TouristScreenTouristicPlaceAdapter(mutableListOf(), userEmail)
         recyclerView.adapter = adapter
 
         // Set up SearchView listener
@@ -61,16 +61,20 @@ class TouristSearchActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
+                    val intent = Intent(this, TouristScreen::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
                     finish()
-                    startActivity(Intent(this, TouristScreen::class.java))
                     true
                 }
                 R.id.navigation_search -> {
                     true
                 }
                 R.id.navigation_profile -> {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
                     finish()
-                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 R.id.navigation_map -> {
