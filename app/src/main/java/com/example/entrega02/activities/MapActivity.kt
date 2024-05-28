@@ -194,12 +194,15 @@ class MapActivity : AppCompatActivity() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.locations.forEach { location ->
                     Log.i(TAG, "onLocationResult: $location")
-                    fragment.moveDog(location)
+
+                    // Llama a moveDog con la ubicación actual y un bearing predeterminado (0f)
+                    fragment.moveDog(location, 0f)
                     position = location
                 }
             }
         }
     }
+
 
     override fun onResume() {
         super.onResume()

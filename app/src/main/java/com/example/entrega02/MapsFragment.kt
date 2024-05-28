@@ -64,7 +64,7 @@ class MapsFragment : Fragment(), SensorEventListener {
     private var polylinePoints = mutableListOf<LatLng>()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
-    private var currentLocation: LatLng = LatLng(0.0, 0.0) // Variable global para almacenar la ubicación actual del usuario
+    private var currentLocation: LatLng = LatLng(0.0, 0.0)
     private var currentPolyline: Polyline? = null
     private var currentMarker: Marker? = null
 
@@ -145,7 +145,7 @@ class MapsFragment : Fragment(), SensorEventListener {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE)
         }
-        // En la otra parte del código donde obtienes la ubicación del usuario
+
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 // Actualiza la ubicación actual del usuario
@@ -153,10 +153,9 @@ class MapsFragment : Fragment(), SensorEventListener {
 
                 // Solo intenta agregar el punto si se pudo obtener la ubicación del usuario
                 if (location != null) {
-                    addPoint(currentLocation)
+                    moveDog(location, 0f)  // Inicialmente sin rotación
                 }
             }
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -180,13 +179,14 @@ class MapsFragment : Fragment(), SensorEventListener {
         return BitmapDescriptorFactory.fromBitmap(smallMarker)
     }
 
-    fun moveDog(location: Location) {
+    fun moveDog(location: Location, bearing: Float) {
         val latLng = LatLng(location.latitude, location.longitude)
         dogMarker.position = latLng
+        dogMarker.rotation = bearing  // Actualiza la rotación del marcador
         dogMarker.zIndex = 10.0f
         polylinePoints.add(latLng)
         drawPolyline()
-        if(moveCamera) {
+        if (moveCamera) {
             gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
         }
     }
@@ -342,15 +342,13 @@ class MapsFragment : Fragment(), SensorEventListener {
 
                 val bearing = Math.toDegrees(orientation[0].toDouble()).toFloat()
 
-                if (isOrientationEnabled) {
-                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(
-                        CameraPosition.builder()
-                            .target(gMap.cameraPosition.target)
-                            .zoom(gMap.cameraPosition.zoom)
-                            .bearing(bearing)
-                            .build()
-                    )
-                    gMap.moveCamera(cameraUpdate)
+                // Verifica si currentLocation ha sido actualizado
+                if (currentLocation.latitude != 0.0 || currentLocation.longitude != 0.0) {
+                    val location = Location("").apply {
+                        latitude = currentLocation.latitude
+                        longitude = currentLocation.longitude
+                    }
+                    moveDog(location, bearing)
                 }
             }
         }
@@ -359,6 +357,8 @@ class MapsFragment : Fragment(), SensorEventListener {
             Log.d("SensorAccuracy", "La precisión del sensor ${sensor.name} ha cambiado a $accuracy")
         }
     }
+
+
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
         //Do nothing
