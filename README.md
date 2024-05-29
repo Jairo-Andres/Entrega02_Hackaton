@@ -85,8 +85,11 @@ TuristicApp es una aplicación diseñada para incentivar el turismo en Bogotá, 
 
 <h3 align="center">
   ► Esquema de FireBase
-  <img src="https://github.com/PUJ-Computacion-movil-11804/turisticapp/assets/101293233/ee0d284e-f274-45dd-bf76-4a234ec75a85">
 </h3>
+<p align="center">
+  <img src="https://github.com/PUJ-Computacion-movil-11804/turisticapp/assets/101293233/ee0d284e-f274-45dd-bf76-4a234ec75a85">
+</p>
+
 <h3 align="center">
    <a href="https://www.figma.com/file/XVIrqC0DHOIiwViWb2sW8W/JaveWheels?type=design&node-id=0%3A1&mode=design&t=iqeRY4AXJ923yN8z-1">
   ► Pantallas principales de TuristicApp utilizando la herramienta Figma
