@@ -67,6 +67,9 @@
         </intent-filter>
     </activity>
 
+        <activity android:name=".activities.UpdateUserScreen" />
+
+
         <activity
             android:name=".activities.MapActivity"
             android:exported="false"

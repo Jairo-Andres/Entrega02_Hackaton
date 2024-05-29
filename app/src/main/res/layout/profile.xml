@@ -58,12 +58,12 @@
 
             <ImageButton
                 android:id="@+id/tomarFotoView"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:background="#8FAD88"
-                app:srcCompat="@android:drawable/ic_menu_camera" />
+                android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="65dp"
+            android:layout_weight="0."
+            android:background="#8FAD88"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
             <Space
                 android:layout_width="24dp"
@@ -71,13 +71,21 @@
 
             <ImageButton
                 android:id="@+id/agregarFotoView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_marginRight="100dp"
-                android:background="#8FAD88"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
+                android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="0.5"
+            android:layout_marginRight="25dp"
+            android:background="#8FAD88"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
+            <ImageButton
+                android:id="@+id/actualizarInfoView"
+                android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="50"
+            android:layout_marginRight="60dp"
+            android:background="#8FAD88"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
 

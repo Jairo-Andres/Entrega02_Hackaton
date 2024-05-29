@@ -46,6 +46,7 @@ class ProfileActivity : AppCompatActivity() {
         if (userId != null) {
             loadUserImageFromFirestore(userId)
             loadUserEmailFromFirestore(userId)
+            loadUserNameAndPersonalInfoFromFirestore(userId)
         }
 
         // Configuración de pickers de imagen
@@ -97,6 +98,13 @@ class ProfileActivity : AppCompatActivity() {
             handleCameraPermission()
         }
 
+        // Agrega el OnClickListener aquí
+        findViewById<ImageButton>(R.id.actualizarInfoView).setOnClickListener {
+            val intent = Intent(this, UpdateUserScreen::class.java)
+            intent.putExtra("email", userEmail)  // Pasar el email si es necesario
+            startActivity(intent)
+        }
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
         // Set the map menu item as selected
@@ -133,6 +141,38 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    private fun loadUserNameAndPersonalInfoFromFirestore(userId: String) {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(userId)
+        ref.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val firstName = document.getString("firstName")
+                    val lastName = document.getString("lastName")
+                    val personalInfo = document.getString("personalInfo")
+                    updateUserNameAndPersonalInfo(firstName, lastName, personalInfo)
+                }
+            }
+            .addOnFailureListener {
+                // Manejo de error
+            }
+    }
+
+    private fun updateUserNameAndPersonalInfo(firstName: String?, lastName: String?, personalInfo: String?) {
+        val nameTextView = findViewById<TextView>(R.id.txt_nombre)
+        val infoTextView = findViewById<TextView>(R.id.txt_info)
+
+        if (firstName != null && lastName != null) {
+            nameTextView.text = "$firstName $lastName"
+        } else {
+            nameTextView.text = "Nombre Genérico"
+        }
+
+        if (personalInfo != null) {
+            infoTextView.text = personalInfo
+        } else {
+            infoTextView.text = "Información personal..."
+        }
+    }
 
     fun loadUserEmailFromFirestore(userId: String) {
         val ref = FirebaseFirestore.getInstance().collection("users").document(userId)

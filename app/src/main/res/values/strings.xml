@@ -3,7 +3,7 @@
     <string name="log_in">Iniciar sesion</string>
     <string name="sign_up">Registrarse</string>
     <string name="password">Contraseña</string>
-    <string name="username">Nombre de usuario</string>
+    <string name="username">Correo de usuario</string>
     <string name="crear_cuenta">crear cuenta</string>
     <string name="confirma_tu_contrase_a">confirma tu contraseña</string>
     <string name="propietary">Propietario?</string>

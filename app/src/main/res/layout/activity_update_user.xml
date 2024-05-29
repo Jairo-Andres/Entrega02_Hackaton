@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp">
+
+    <!-- ScrollView para permitir desplazamiento vertical -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Rectángulo blanco para el inicio de pantalla -->
+            <View
+                android:id="@+id/start_rect"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/colorSecundary" />
+
+            <!-- Imagen del logo arriba -->
+            <ImageView
+                android:id="@+id/imageLogo"
+                android:layout_width="308dp"
+                android:layout_height="240dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/fondo_principal" />
+
+            <!-- EditText para el nombre -->
+            <EditText
+                android:id="@+id/SignUpFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:hint="Nombre"
+                android:background="@drawable/edit_text_background"
+                android:inputType="textPersonName"
+                android:padding="10dp" />
+
+            <!-- EditText para el apellido -->
+            <EditText
+                android:id="@+id/SignUpLastName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:hint="Apellido"
+                android:background="@drawable/edit_text_background"
+                android:inputType="textPersonName"
+                android:padding="10dp" />
+
+            <!-- EditText para el nombre de usuario -->
+            <EditText
+                android:id="@+id/SignUpEmail"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:hint="@string/username"
+                android:background="@drawable/edit_text_background"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+
+            <!-- EditText para la contraseña -->
+            <EditText
+                android:id="@+id/SignUpPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:hint="@string/password"
+                android:background="@drawable/edit_text_background"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+
+            <!-- EditText para confirmar contraseña -->
+            <EditText
+                android:id="@+id/checkPasswordText"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:hint="@string/confirma_tu_contrase_a"
+                android:background="@drawable/edit_text_background"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+
+            <!-- EditText para información personal -->
+            <EditText
+                android:id="@+id/SignUpPersonalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:hint="Información Personal"
+                android:background="@drawable/edit_text_background"
+                android:inputType="textMultiLine"
+                android:padding="10dp" />
+
+
+            <!-- Botón de registro -->
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/custom_button"
+                android:padding="12dp"
+                android:text="Actulizar Cuenta" />
+
+            <!-- Texto bonito "Sign Up" al final de la pantalla -->
+            <TextView
+                android:id="@+id/textViewSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <View
+                android:id="@+id/end_rect"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/colorSecundary"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
