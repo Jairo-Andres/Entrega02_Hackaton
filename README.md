@@ -72,7 +72,8 @@ TuristicApp es una aplicación diseñada para incentivar el turismo en Bogotá, 
   ► Diagrama de Clases
 </h3>
 <p align="center">
-  <img src="https://github.com/PUJ-Computacion-movil-11804/turisticapp/assets/98932196/7f646d39-b3e3-4d37-af64-debf4dd9270a">
+  <img src="https://github.com/PUJ-Computacion-movil-11804/turisticapp/assets/101293233/a1cb13cc-9b64-4ec2-92a1-97317ed18e9c">
+
 </p>
 
 <h3 align="center">
