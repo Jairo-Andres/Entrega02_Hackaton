@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entrega02.R
+import com.example.entrega02.adapters.SearchAdapter
 import com.example.entrega02.adapters.TouristScreenTouristicPlaceAdapter
+import com.example.entrega02.data.InfoUser
 import com.example.entrega02.data.Review
 import com.example.entrega02.data.TouristicPlace
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class TouristSearchActivity : AppCompatActivity() {
 
+    private lateinit var searchAdapter1: SearchAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var adapter: TouristScreenTouristicPlaceAdapter
@@ -51,6 +54,22 @@ class TouristSearchActivity : AppCompatActivity() {
                 return false
             }
         })
+
+        // Definir la lista de datos (Avistamiento) para el primer RecyclerView
+        val avistamientos1 = listOf(
+            InfoUser(R.drawable.img_malacoptila, "Malacoptila", "Familia de los Bucconidae", "08/01/2024"),
+            InfoUser(R.drawable.img_guacharaca, "Guacharaca", "Ave de bosque", "02/03/2024"),
+            InfoUser(R.drawable.img_loro_multicolor, "Loro multicolor", "Ave insignia de Caldas", "25/06/2024"),
+        )
+
+        // Instanciar y configurar el adaptador y RecyclerView para el primer conjunto de datos
+        val recyclerView1: RecyclerView = findViewById(R.id.recyclerView1)
+        searchAdapter1 = SearchAdapter(avistamientos1) { avis1 ->
+            abrirDetalles(avis1)
+        }
+        recyclerView1.adapter = searchAdapter1
+        recyclerView1.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
@@ -131,6 +150,14 @@ class TouristSearchActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this,getString(R.string.error_cargando_datos_lo_sentimos),Toast.LENGTH_LONG).show()
             }
+    }
+
+    private fun abrirDetalles(infoUser: InfoUser) {
+        val intent = Intent(this, DetallesBusquedaActivity::class.java)
+        // Aquí puedes agregar datos adicionales al intent si es necesario
+        intent.putExtra("tipoAve", infoUser.tipoAve)
+        intent.putExtra("descripcion", infoUser.descripcion)
+        startActivity(intent)
     }
 
     private fun requestLocationPermission() {
