@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "647496168366",
-    "project_id": "proyecto-compu-movil-ccf41",
-    "storage_bucket": "proyecto-compu-movil-ccf41.appspot.com"
+    "project_number": "129755827096",
+    "project_id": "apphackaton-298ec",
+    "storage_bucket": "apphackaton-298ec.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:647496168366:android:2af475399c35a0e22b0e3f",
+        "mobilesdk_app_id": "1:129755827096:android:ea0b96dc70b65acc6cf9ed",
         "android_client_info": {
           "package_name": "com.example.entrega02"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyArkgZSfZ2yobBKy-lwJqiat1TQ5MfyB0M"
+          "current_key": "AIzaSyDgaBD8MCQlLd8yf5r8DguCNS4zfUF5d_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129755827096:android:36a8834280876ff06cf9ed",
+        "android_client_info": {
+          "package_name": "com.example.entrega2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgaBD8MCQlLd8yf5r8DguCNS4zfUF5d_o"
         }
       ],
       "services": {

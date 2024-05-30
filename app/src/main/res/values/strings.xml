@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TuristicApp</string>
+    <string name="app_name">TeachTravel</string>
     <string name="log_in">Iniciar sesion</string>
     <string name="sign_up">Registrarse</string>
     <string name="password">Contraseña</string>
